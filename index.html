@@ -9,10 +9,25 @@
 			width: 100px;
 			height: 100px;
 		}*/
+		#inputURL {
+			display: none;
+		}
+
 		#maincontainer {
 			width: 200px;
 			height: 300px;
 			border: 1px solid black;
+			background: #bbbbbb;
+			color: white;
+			position: relative;
+			overflow: hidden;
+		}
+		#maincontainer p {
+			text-align: center;
+		}
+		#imgcontainer {
+			position: absolute;
+			top: 0;
 		}
 	</style>
 </head>
@@ -21,10 +36,12 @@
 		<input id="inputURL" type="file" accept="image/*" />
 		<div id="maincontainer">
 			<p>click to upload your image</p>
+
+			<div id="imgcontainer">
+				<img src="" alt="">
+			</div>
 		</div>
-		<div id="imgcontainer">
-			<img src="" alt="">
-		</div>
+
 	</div>
 
 
@@ -42,7 +59,30 @@
 
 			$("#maincontainer").on("click", function(){
 				$("#inputURL").trigger("click");
-			})
+			});
+
+			$("#imgcontainer").on("mousedown", function(e){
+				e.preventDefault();
+				var y0 = e.offsetY;
+				var x0 = e.offsetX;
+				var imgoffset = $("#imgcontainer").offset();
+				
+				$("#imgcontainer").on("mousemove", function(e){
+					e.preventDefault();
+					$("#imgcontainer").offset({top:imgoffset.top + e.offsetY - y0, left:imgoffset.left+e.offsetX - x0});
+					// $("#imgcontainer").offset().top += e.offsetY - y0;
+					// $("#imgcontainer").offset().left += e.offsetX - x0;
+					console.log(e.offsetY);
+				});
+
+				$("#imgcontainer").on("mouseup", function(e){
+					$("#imgcontainer").off("mousemove");
+				});
+			});
+
+			$("#imgcontainer").on("click", function(e){
+				e.stopPropagation();
+			});
 		})
 	</script>
 </body>
