@@ -3,9 +3,47 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Game</title>
-	
+	<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+	<style>
+/*		img {
+			width: 100px;
+			height: 100px;
+		}*/
+		#maincontainer {
+			width: 200px;
+			height: 300px;
+			border: 1px solid black;
+		}
+	</style>
 </head>
 <body>
-	
+	<div>
+		<input id="inputURL" type="file" accept="image/*" />
+		<div id="maincontainer">
+			<p>click to upload your image</p>
+		</div>
+		<div id="imgcontainer">
+			<img src="" alt="">
+		</div>
+	</div>
+
+
+	<script>
+		$(document).ready(function(){
+			$("#inputURL").on("change", function(){
+				var freader = new FileReader();
+				freader.readAsDataURL(this.files[0]);
+				freader.onloadend = function(){
+					var dataURL = freader.result;
+					$("#imgcontainer img")[0].src = dataURL;
+					console.log(dataURL);
+				};
+			});
+
+			$("#maincontainer").on("click", function(){
+				$("#inputURL").trigger("click");
+			})
+		})
+	</script>
 </body>
 </html>
